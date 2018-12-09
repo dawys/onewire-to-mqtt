@@ -48,8 +48,7 @@ class OnewireClient:
 	  
       for path, value in self.__getConfig().getOnewire().getInitDevices().items():
         try:
-          ow._put(path, value);	
-          print path
+          ow._put(path, value);
         except ow.exUnknownSensor:
           logging.error("unknown sensor for deviceId \"%s\" and topic \"%s\"", temp.getId(), temp.getPath());
 	
