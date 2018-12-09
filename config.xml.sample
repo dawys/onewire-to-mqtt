@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+	<logger>
+		<level>WARNING</level>
+		<format>%(asctime)-15s %(message)s</format>
+		<filePath>/var/log/onewire-to-mqtt.log</filePath>
+	</logger>
+	<mqtt>
+		<hostname>localhost</hostname>
+		<port>1883</port>
+		<timeout>60</timeout>
+		<username>username</username>
+		<password>password</password>
+		<qosPublish>0</qosPublish>
+		<qosSubscribe>0</qosSubscribe>
+		<retain>0</retain>
+		<topicPrefix>onewire</topicPrefix>
+		<refreshinterval>30</refreshinterval>
+		<topics>
+			<topic id="28.53111A000000" property="PIO.0" type="ON_OFF">heating/requestSwitch</topic>
+			<topic id="21.00CDA0050000" property="temperature" type="FLOAT">heating/returnTemperature</topic>
+			<topic id="15.A10066000000" property="counter.A" type="INTEGER">basement/totalElectricMeterPuls</topic>
+		</topics>		
+	</mqtt>
+	<onewire>
+		<hostname>localhost</hostname>
+		<port>4304</port>
+		<init>
+			<device id="simultaneous" property="temperature">1</device>
+			<device id="21.46A781000003" property="power">1</device>
+		</init>
+	</onewire>
+</config>
