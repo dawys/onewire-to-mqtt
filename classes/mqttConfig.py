@@ -57,7 +57,7 @@ class MqttConfig:
     if (topicPrefix != None and topicPrefix.text.strip() != ""):
       self.setTopicPrefix(topicPrefix.text.strip());
 	  
-    refreshinterval = root.find("onewire/refreshinterval");
+    refreshinterval = root.find("mqtt/refreshinterval");
     if (refreshinterval != None and refreshinterval.text.strip() != ""):
       self.setRefreshinterval(int(refreshinterval.text.strip()));	  
 
