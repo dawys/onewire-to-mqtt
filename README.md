@@ -83,15 +83,15 @@ mosquitto_pub -h localhost -u username -P password -t onewire/set/basement/total
 ```
 if you want to init all devices
 ```
-mosquitto_pub -h localhost -u username -P password -t onewire/set/inith -m true
+mosquitto_pub -h localhost -u username -P password -t onewire/set/init -m true
 ```
 
 if you are usinf openhab2 to read and write values
 - install binding mqtt and edit services/mqtt.cfg
 - define items
 ```
-Item itemheatingRequestSwitch {mqtt=">[broker:onewire/set/heating/requestSwitch:*:default], <[broker:onewire/get/heating/requestSwitch:*:default]"}
-Item itemheatingReturnTemperature {mqtt="<[broker:onewire/get/heating/requestSwitch:*:default]"}
+Item itemHeatingRequestSwitch {mqtt=">[broker:onewire/set/heating/requestSwitch:*:default], <[broker:onewire/get/heating/requestSwitch:*:default]", autoupdate="false"}
+Item itemHeatingReturnTemperature {mqtt="<[broker:onewire/get/heating/requestSwitch:*:default]"}
 ```
 
 ## Configuration file
