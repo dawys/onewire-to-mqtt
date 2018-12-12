@@ -8,7 +8,7 @@ A running [owserver](http://owfs.org/index.php?page=owserver) and a mqtt-broker 
 
 - install a broker like mosquitto
 ```
-apt-get install mosquitto
+apt-get install mosquitto mosquitto-clients
 ```
 
 - install software
