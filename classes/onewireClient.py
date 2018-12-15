@@ -86,16 +86,12 @@ class OnewireClient:
         ow._put("/%s/%s" % (temp.getId(), temp.getProperty()), value);	
         logging.info("did update device \"%s\" with value \"%s\"", temp.getId(), value);
 		
-        self.__publishDevice(temp, value);
+        self.__publishDevice(temp, value, True);
 		
       except ow.exUnknownSensor:
         logging.error("unknown sensor for deviceId \"%s\" and topic \"%s\"", temp.getId(), temp.getPath());
 
   def __readDevices(self):
-  
-    ow._put("/simultaneous/temperature", "1");
-	
-    size = len(self.__getConfig().getMqtt().getTopics().values());
 
     for topic in self.__getConfig().getMqtt().getTopics().values():
 
@@ -117,11 +113,11 @@ class OnewireClient:
         except ow.exUnknownSensor:
           logging.error("unknown sensor for deviceId \"%s\" and topic \"%s\"", topic.getId(), topic.getPath());
 		
-        self.__publishDevice(topic, value);
+        self.__publishDevice(topic, value, False);
 		
       time.sleep(0.1);
 	  
-  def __publishDevice(self, topic, value):
+  def __publishDevice(self, topic, value, force):
   
     if (value != None):
       if (topic.getType() == Type.INTEGER):
@@ -150,11 +146,21 @@ class OnewireClient:
         device = self.__getDevices()[key];
 
         if (value != device.getValue()):
-          device.setUpdateTime(updateTime);
-          device.setValue(value);
-          update = True;
+          if (force or not device.getForce()):
+            device.setUpdateTime(updateTime);
+            device.setValue(value);
+            if (force):
+              logging.info("set force to \"" + key + "\" and value \"" + str(value) + "\"");
+              device.setForce(True);
+            update = True;
+        elif (not force and device.getForce()):
+          logging.info("remove force from \"" + key + "\" and value \"" + str(value) + "\"");
+          device.setForce(False);
       else:
         device = Device(value, updateTime);
+        if (force):
+          logging.info("set force to \"" + key + "\" and value \"" + str(value) + "\"");
+          device.setForce(True);	
         self.__getDevices()[key] = device;
         update = True;
 					
