@@ -1,6 +1,7 @@
 import logging;
 import ow;
 import time;
+import threading;
 
 from classes.topic import Type;
 from device import Device;
@@ -81,15 +82,19 @@ class OnewireClient:
           value = "0";
         elif (value == "0"):
           value = "1";
-			
-      try:
-        ow._put("/%s/%s" % (temp.getId(), temp.getProperty()), value);	
-        logging.info("did update device \"%s\" with value \"%s\"", temp.getId(), value);
+  
+      self.__publishDevice(temp, value, True);	
+	  
+      thread = threading.Thread(target=self.__writeDevice, args=[temp.getId(), temp.getProperty(), value]);
+      thread.start();
 		
-        self.__publishDevice(temp, value, True);
+  def __writeDevice(self, id, property, value):
+    try:
+      ow._put("/%s/%s" % (id, property), value);	
+      logging.info("did update device \"%s\" with value \"%s\"", id, value);
 		
-      except ow.exUnknownSensor:
-        logging.error("unknown sensor for deviceId \"%s\" and topic \"%s\"", temp.getId(), temp.getPath());
+    except ow.exUnknownSensor:
+      logging.error("unknown sensor for deviceId \"%s\" and topic \"%s\"", temp.getId(), temp.getPath());
 
   def __readDevices(self):
 
