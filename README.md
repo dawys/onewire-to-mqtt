@@ -90,7 +90,7 @@ if you are usinf openHAB2 to read and write values
 - install binding mqtt and edit services/mqtt.cfg
 - define items
 ```
-Item itemHeatingRequestSwitch {mqtt=">[broker:onewire/set/heating/requestSwitch:*:default], <[broker:onewire/get/heating/requestSwitch:*:default]", autoupdate="false"}
+Item itemHeatingRequestSwitch {mqtt=">[broker:onewire/set/heating/requestSwitch:*:default], <[broker:onewire/get/heating/requestSwitch:*:default]", autoupdate="true"}
 Item itemHeatingReturnTemperature {mqtt="<[broker:onewire/get/heating/requestSwitch:*:default]"}
 ```
 
