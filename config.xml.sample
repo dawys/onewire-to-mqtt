@@ -15,9 +15,9 @@
 		<qosSubscribe>0</qosSubscribe>
 		<retain>0</retain>
 		<topicPrefix>onewire</topicPrefix>
-		<refreshinterval>30</refreshinterval>
+		<refreshInterval>30</refreshInterval>
 		<topics>
-			<topic id="28.53111A000000" property="PIO.0" type="ON_OFF">heating/requestSwitch</topic>
+			<topic refreshInterval="30" id="28.53111A000000" property="PIO.0" type="ON_OFF">heating/requestSwitch</topic>
 			<topic id="21.00CDA0050000" property="temperature" type="FLOAT">heating/returnTemperature</topic>
 			<topic id="15.A10066000000" property="counter.A" type="INTEGER">basement/totalElectricMeterPuls</topic>
 		</topics>		
