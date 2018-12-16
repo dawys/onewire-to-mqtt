@@ -69,6 +69,8 @@ class OnewireClient:
     if (temp != None):
       if (temp.getType() == Type.INTEGER):
         value = int(value);
+      elif (temp.getType() == Type.LONG):
+        value = long(value);
       elif (temp.getType() == Type.FLOAT):
         value = float(value);
       elif (temp.getType() == Type.ON_OFF):
@@ -106,7 +108,7 @@ class OnewireClient:
 	  
       update = False;
       if (key in self.__getDevices()):
-        if (now - self.__getDevices()[key].getUpdateTime() > topic.getRefreshinterval() * 100):
+        if (now - self.__getDevices()[key].getRefreshTime() > topic.getRefreshInterval() * 100):
           update = True;
       else:
         update = True;
@@ -127,6 +129,8 @@ class OnewireClient:
     if (value != None):
       if (topic.getType() == Type.INTEGER):
         value = int(value);
+      elif (topic.getType() == Type.LONG):
+        value = long(value);
       elif (topic.getType() == Type.FLOAT):
         value = float(value);
       elif (topic.getType() == Type.ON_OFF):
@@ -143,7 +147,7 @@ class OnewireClient:
 			   
       update = False;
 
-      updateTime = int(time.time() * 100);
+      refreshTime = int(time.time() * 100);
 	  
       key = topic.getPath() + "/" + topic.getProperty();
 				  
@@ -152,7 +156,7 @@ class OnewireClient:
 
         if (value != device.getValue()):
           if (force or not device.getForce()):
-            device.setUpdateTime(updateTime);
+            device.setRefreshTime(refreshTime);
             device.setValue(value);
             if (force):
               logging.info("set force to \"" + key + "\" and value \"" + str(value) + "\"");
@@ -162,7 +166,7 @@ class OnewireClient:
           logging.info("remove force from \"" + key + "\" and value \"" + str(value) + "\"");
           device.setForce(False);
       else:
-        device = Device(value, updateTime);
+        device = Device(value, refreshTime, None);
         if (force):
           logging.info("set force to \"" + key + "\" and value \"" + str(value) + "\"");
           device.setForce(True);	
