@@ -116,7 +116,7 @@ class OnewireClient:
       if (update):
         value = None;
         try:
-          value = ow._get("/%s/%s" % (topic.getId(), topic.getProperty()));
+          value = ow._get("/uncached/%s/%s" % (topic.getId(), topic.getProperty()));
         except ow.exUnknownSensor:
           logging.error("unknown sensor for deviceId \"%s\" and topic \"%s\"", topic.getId(), topic.getPath());
 		
